@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:32:02 by cluby             #+#    #+#             */
-/*   Updated: 2024/05/29 20:04:43 by cluby            ###   ########.fr       */
+/*   Updated: 2024/05/30 15:47:54 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ void	handle_signal(int signal, siginfo_t *info, void *context)
 			ft_printf("%c", current_char);
 		bit_index = 0;
 		current_char = 0;
+				kill(info->si_pid, SIGUSR1);
 	}
 	else
 		current_char <<= 1;
 	if (signal == SIGUSR1)
 		kill(info->si_pid, SIGUSR1);
 	else if (signal == SIGUSR2)
-		kill(info->si_pid, SIGUSR2);
+		kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)

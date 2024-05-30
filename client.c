@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:32:05 by cluby             #+#    #+#             */
-/*   Updated: 2024/05/30 15:33:02 by cluby            ###   ########.fr       */
+/*   Updated: 2024/05/30 15:51:06 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ void	send_signal(int pid, unsigned char character)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(4000);
+		usleep(42);
 	}
 }
 
 void	handle_read_receipt(int signal)
 {
 	if (signal == SIGUSR1)
-		ft_printf("Received bit 1\n");
+		ft_printf("bit received\n");
 	else if (signal == SIGUSR2)
-		ft_printf("Received bit 0\n");
+		ft_printf("Caca\n");
 }
 
 int	main(int argc, char *argv[])
@@ -47,14 +47,17 @@ int	main(int argc, char *argv[])
 	int		server_pid;
 	char	*message;
 	int		i;
+	struct sigaction	sa;
 
 	if (argc != 3)
 	{
 		ft_printf("Usage : %s <pid> <message>\n", argv[0]);
 		exit(0);
 	}
-	signal(SIGUSR1, handle_read_receipt);
-	signal(SIGUSR2, handle_read_receipt);
+	sa.sa_handler = &handle_read_receipt;
+	sa.sa_flags = 0;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	server_pid = ft_atoi(argv[1]);
 	message = argv[2];
 	i = 0;
