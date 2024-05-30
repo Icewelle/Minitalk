@@ -6,19 +6,19 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:32:05 by cluby             #+#    #+#             */
-/*   Updated: 2024/05/28 20:15:44 by cluby            ###   ########.fr       */
+/*   Updated: 2024/05/30 15:33:02 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <unistd.h>
-#include <stdio.h>
 #include "libft/includes/libft.h"
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
 
- void send_signal(int pid, unsigned char character)
+void	send_signal(int pid, unsigned char character)
 {
-	int    i;
-	unsigned char temp_char;
+	int				i;
+	unsigned char	temp_char;
 
 	i = 8;
 	temp_char = character;
@@ -30,25 +30,36 @@
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(42);
+		usleep(4000);
 	}
 }
+
+void	handle_read_receipt(int signal)
+{
+	if (signal == SIGUSR1)
+		ft_printf("Received bit 1\n");
+	else if (signal == SIGUSR2)
+		ft_printf("Received bit 0\n");
+}
+
 int	main(int argc, char *argv[])
 {
+	int		server_pid;
+	char	*message;
 	int		i;
-	__pid_t	pid;
-	char	*str;
 
 	if (argc != 3)
-		return (write(2, "Wrong number of arguments\n", 26), 1);
-	i = 0;
-	pid = ft_atoi(argv[1]);
-	str = argv[2];
-	while (str[i])
 	{
-		send_signal(pid, str[i]);
-		i++;
+		ft_printf("Usage : %s <pid> <message>\n", argv[0]);
+		exit(0);
 	}
-	send_signal(pid, END_TRANSMISSION);
+	signal(SIGUSR1, handle_read_receipt);
+	signal(SIGUSR2, handle_read_receipt);
+	server_pid = ft_atoi(argv[1]);
+	message = argv[2];
+	i = 0;
+	while (message[i])
+		send_signal(server_pid, message[i++]);
+	send_signal(server_pid, '\0');
 	return (0);
 }

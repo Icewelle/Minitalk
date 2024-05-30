@@ -18,7 +18,7 @@ OBJS		=	$(CLIENT_OBJS) \
 				
 # ------------------------------ Constant strings ------------------------------
 
-GCC			=	gcc
+GCC			=	cc
 FLAGS		=	-Wall -Wextra -Werror
 INCLUDE		=	-I include
 SERVER_NAME	=	server
