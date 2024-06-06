@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:32:02 by cluby             #+#    #+#             */
-/*   Updated: 2024/05/30 15:47:54 by cluby            ###   ########.fr       */
+/*   Updated: 2024/06/05 21:37:51 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	handle_signal(int signal, siginfo_t *info, void *context)
 	if (signal == SIGUSR1)
 		kill(info->si_pid, SIGUSR1);
 	else if (signal == SIGUSR2)
-		kill(info->si_pid, SIGUSR1);
+		kill(info->si_pid, SIGUSR2);
 }
 
 int	main(void)
