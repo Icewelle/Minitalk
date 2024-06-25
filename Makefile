@@ -19,7 +19,7 @@ OBJS		=	$(CLIENT_OBJS) \
 # ------------------------------ Constant strings ------------------------------
 
 GCC			=	cc
-FLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror
 INCLUDE		=	-I include
 SERVER_NAME	=	server
 CLIENT_NAME	=	client
@@ -51,11 +51,11 @@ comp_start:
 	@$(LIBFT)
 
 ft_server: $(SERVER_OBJS)
-	@$(GCC) $(FLAGS) $(SERVER_OBJS) $(LIB) -o $(SERVER_NAME)
+	@$(GCC) $(CFLAGS) $(SERVER_OBJS) $(LIB) -o $(SERVER_NAME)
 	@$(SERV_READY)
 
 ft_client: $(CLIENT_OBJS)
-	@$(GCC) $(FLAGS) $(CLIENT_OBJS) $(LIB) -o $(CLIENT_NAME)
+	@$(GCC) $(CFLAGS) $(CLIENT_OBJS) $(LIB) -o $(CLIENT_NAME)
 	@$(CLI_READY)
 
 clean:

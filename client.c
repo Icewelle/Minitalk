@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 22:32:05 by cluby             #+#    #+#             */
-/*   Updated: 2024/06/05 22:10:04 by cluby            ###   ########.fr       */
+/*   Updated: 2024/06/25 12:46:49 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void	send_len(char *message, int server_pid)
+/* void	send_len(char *message, int server_pid)
 {
 	size_t	len;
 	int		i;
@@ -31,7 +31,7 @@ void	send_len(char *message, int server_pid)
             kill(server_pid, SIGUSR2);
         usleep(100);
     }
-}
+} */
 
 void	send_signal(int pid, unsigned char character)
 {
