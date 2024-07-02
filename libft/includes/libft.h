@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:22:58 by cluby             #+#    #+#             */
-/*   Updated: 2024/06/05 20:49:39 by cluby            ###   ########.fr       */
+/*   Updated: 2024/07/02 17:08:51 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIBFT_H
 
 # ifndef BOOL
-#  define BOOL int
+#  define BOOL
 #  define FALSE 0
 #  define TRUE 1
 # endif
@@ -59,8 +59,8 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_atoi(const char *str);
 char	*ft_strdup(const char *src);
 void	*ft_calloc(size_t nmemb, size_t size);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strjoin(char *left_str, char *buff);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 void	ft_putchar_fd(char c, int fd);

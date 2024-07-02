@@ -6,14 +6,14 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:52:58 by cluby             #+#    #+#             */
-/*   Updated: 2023/10/29 19:23:26 by cluby            ###   ########.fr       */
+/*   Updated: 2024/07/02 17:08:27 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static size_t	ft_count(long nbr)
-{	
+{
 	size_t	i;
 
 	i = 0;

@@ -3,27 +3,22 @@ MAKEFLAGS += --silent
 # ------------------------------ Sources ------------------------------
 
 # Files
-SERVER		=	server.c
-CLIENT		=	client.c
 LIBFT		=	cd libft && make
 LIB			=	libft/libft.a
 
 # Sources and objects
-SERVER_SRC	=	$(SERVER)
-SERVER_OBJS	=	$(SERVER_SRC:.c=.o)
-CLIENT_SRC	=	$(CLIENT)
-CLIENT_OBJS	=	$(CLIENT_SRC:.c=.o)
-OBJS		=	$(CLIENT_OBJS) \
-				$(SERVER_OBJS)
+SRC			=	src/main.c \
+				src/forks.c \
+				src/utils.c
+OBJS		=	$(SRC:.c=.o)
 				
 # ------------------------------ Constant strings ------------------------------
 
 GCC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
-INCLUDE		=	-I include
+CFLAGS		=	-Wall -Wextra -Werror -I include -g
 SERVER_NAME	=	server
 CLIENT_NAME	=	client
-NAME		= $(SERVER_NAME) $(CLIENT_NAME)
+NAME		=	pipex
 
 # ------------------------------ Colors ------------------------------
 
@@ -35,8 +30,7 @@ NO_COLOR	=	\033[0m
 # ------------------------------ Messages ------------------------------
 
 COMP_START	=	echo "\n🚧 $(BOLD_YELLOW)Make: $(NO_COLOR)Starting the compilation...\n"
-SERV_READY	=	echo "\n📥 Server ready!\n"
-CLI_READY	=	echo "\n📟 Client ready!\n"
+CLI_READY	=	echo "\n📟 $(BOLD_CYAN)Compilation done !\n"
 CLEANED		=	echo "\n💧 $(BOLD_YELLOW)Clean: $(NO_COLOR)Removed all the \".o\" files \n"
 FCLEANED	=	echo "\n🧼 $(BOLD_YELLOW)Fclean: $(NO_COLOR)Removed the executables \n"
 
@@ -44,18 +38,10 @@ FCLEANED	=	echo "\n🧼 $(BOLD_YELLOW)Fclean: $(NO_COLOR)Removed the executables
 
 all: $(NAME)
 
-$(NAME): comp_start ft_server ft_client
-
-comp_start:
+$(NAME): $(OBJS)
 	@$(COMP_START)
 	@$(LIBFT)
-
-ft_server: $(SERVER_OBJS)
-	@$(GCC) $(CFLAGS) $(SERVER_OBJS) $(LIB) -o $(SERVER_NAME)
-	@$(SERV_READY)
-
-ft_client: $(CLIENT_OBJS)
-	@$(GCC) $(CFLAGS) $(CLIENT_OBJS) $(LIB) -o $(CLIENT_NAME)
+	@$(GCC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME)
 	@$(CLI_READY)
 
 clean:
@@ -64,13 +50,11 @@ clean:
 	@$(CLEANED)
 
 fclean: clean
-	@rm -rf $(SERVER_NAME) $(CLIENT_NAME)
+	@rm -rf $(NAME)
 	@cd libft && make fclean
 	@$(FCLEANED)
 
-.c.o:
-	@${GCC} ${FLAGS} $(INCLUDE) -c $< -o ${<:.c=.o}
 
 re:	fclean all
 
-.PHONY: all minitalk server client clean fclean re libft
+.PHONY: all clean fclean re

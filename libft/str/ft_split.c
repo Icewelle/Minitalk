@@ -6,94 +6,99 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 19:29:46 by cluby             #+#    #+#             */
-/*   Updated: 2024/04/23 23:12:12 by cluby            ###   ########.fr       */
+/*   Updated: 2024/07/02 17:09:21 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	countwords(const char *s, char c)
+unsigned int	count_strings(char const *s, char c)
 {
-	int		i;
-	size_t	count;
+	unsigned int	count;
+	int				is_inside;
 
-	if (!s)
-		return (0);
-	if (c == '\0')
-	{
-		if (*s == '\0')
-			return (0);
-		else
-			return (1);
-	}
-	i = 0;
 	count = 0;
-	while (s[i])
+	is_inside = 0;
+	while (*s)
 	{
-		while (s[i] && s[i] == c)
-			i++;
-		if (s[i] != '\0')
-			count++;
-		while (s[i] && s[i] != c)
-			i++;
+		if (*s != c)
+		{
+			if (!is_inside)
+			{
+				count++;
+				is_inside = 1;
+			}
+		}
+		else
+			is_inside = 0;
+		s++;
 	}
 	return (count);
 }
 
-static void	freesplit(char **tab)
+static char	*apply_string(const char *s, char c)
 {
-	int	i;
+	char	*str;
+	int		len;
 
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		tab[i] = NULL;
-		i++;
-	}
-	free(tab);
+	len = 0;
+	while (s[len] && s[len] != c)
+		len++;
+	if (len == 0)
+		return (NULL);
+	str = (char *)malloc(len + 1);
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s, len + 1);
+	return (str);
 }
 
-static void	*doit(char **str, const char *s, char c)
+static int	fill_result(char **result, char const *s, char c)
 {
 	int		i;
-	int		j;
-	size_t	start;
+	int		is_inside;
 
 	i = 0;
-	j = 0;
-	while (s[i])
+	is_inside = 0;
+	while (*s)
 	{
-		while (s[i] == c)
-			i++;
-		start = i;
-		if (s[i] != c && s[i] != '\0')
+		if (*s != c)
 		{
-			while (s[i] != '\0' && s[i] != c)
-				i++;
-			str[j] = ft_substr(s, start, i - start);
-			if (!str[j])
+			if (!is_inside)
 			{
-				freesplit(str);
-				return (NULL);
+				result[i++] = apply_string(s, c);
+				if (!result[i - 1])
+					return (0);
 			}
-			j++;
+			is_inside = 1;
 		}
+		else
+			is_inside = 0;
+		s++;
 	}
-	return (str);
+	return (1);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		words;
-	char	**str;
+	unsigned int	count;
+	unsigned int	i;
+	char			**result;
 
-	words = countwords(s, c);
-	str = (char **)malloc((words + 1) * sizeof(char *));
-	if (!str)
+	if (!s)
 		return (NULL);
-	if (!doit(str, s, c))
+	count = count_strings(s, c);
+	result = (char **)malloc((count + 1) * sizeof(char *));
+	if (!result)
 		return (NULL);
-	str[words] = NULL;
-	return (str);
+	if (!fill_result(result, s, c))
+	{
+		i = 0;
+		while (result[i])
+			free(result[i++]);
+		free(result);
+		return (NULL);
+	}
+	result[count] = NULL;
+	return (result);
 }

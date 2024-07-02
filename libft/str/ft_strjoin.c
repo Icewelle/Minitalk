@@ -6,37 +6,26 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 18:41:05 by cluby             #+#    #+#             */
-/*   Updated: 2024/04/23 23:38:11 by cluby            ###   ########.fr       */
+/*   Updated: 2024/07/02 16:41:47 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char *left_str, char *buff)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	i;
-	size_t	j;
-	char	*str;
+	char	*s;
+	size_t	ls1;
+	size_t	ls2;
 
-	if (!left_str)
-	{
-		left_str = (char *)malloc(1 * sizeof(char));
-		if (!left_str)
-			return (NULL);
-		left_str[0] = '\0';
-	}
-	if (!left_str || !buff)
+	if (!s1 || !s2)
 		return (NULL);
-	str = malloc(sizeof(char) * ((ft_strlen(left_str) + ft_strlen(buff)) + 1));
-	if (str == NULL)
+	ls1 = ft_strlen(s1);
+	ls2 = ft_strlen(s2);
+	s = (char *)ft_calloc(ls1 + ls2 + 1, sizeof(char));
+	if (!s)
 		return (NULL);
-	i = -1;
-	j = 0;
-	if (left_str)
-		while (left_str[++i] != '\0')
-			str[i] = left_str[i];
-	while (buff[j] != '\0')
-		str[i++] = buff[j++];
-	str[ft_strlen(left_str) + ft_strlen(buff)] = '\0';
-	return (free(left_str), str);
+	ft_strlcat(s, s1, ls1 + 1);
+	ft_strlcat(s + ls1, s2, ls2 + 1);
+	return (s);
 }

@@ -6,14 +6,14 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 23:20:17 by cluby             #+#    #+#             */
-/*   Updated: 2024/04/23 23:20:39 by cluby            ###   ########.fr       */
+/*   Updated: 2024/07/02 17:09:46 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 size_t	ft_nbrsize(unsigned long nbr)
-{	
+{
 	size_t	i;
 
 	i = 0;
