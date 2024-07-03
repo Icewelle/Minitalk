@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 21:28:08 by cluby             #+#    #+#             */
-/*   Updated: 2024/07/03 15:38:38 by cluby            ###   ########.fr       */
+/*   Updated: 2024/07/02 16:49:50 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	main(int argc, char **argv, char **envp)
 	int	(*fd)[2];
 	int	status;
 
-	if (argc != 5)
+	if (argc < 5)
 	{
-		ft_printf("4 arguments are required.");
+		ft_printf("Minimum 4 arguments are required.");
 		return (1);
 	}
 	argv++;

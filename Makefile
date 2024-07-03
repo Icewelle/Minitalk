@@ -11,6 +11,10 @@ SRC			=	src/main.c \
 				src/forks.c \
 				src/utils.c
 OBJS		=	$(SRC:.c=.o)
+BONUS_SRC	=	bonus/main_bonus.c\
+				bonus/forks_bonus.c\
+				bonus/utils_bonus.c
+BONUS_OBJ	=	$(BONUS_SRC:.c=.o)	
 				
 # ------------------------------ Constant strings ------------------------------
 
@@ -44,6 +48,12 @@ $(NAME): $(OBJS)
 	@$(GCC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME)
 	@$(CLI_READY)
 
+bonus: $(BONUS_OBJ)
+	@$(COMP_START)
+	@$(LIBFT)
+	@$(GCC) $(CFLAGS) $(BONUS_OBJ) $(LIB) -o $(NAME)
+	@$(CLI_READY)
+
 clean:
 	@rm -rf $(OBJS)
 	@cd libft && make clean
@@ -57,4 +67,4 @@ fclean: clean
 
 re:	fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 19:27:16 by cluby             #+#    #+#             */
-/*   Updated: 2024/07/03 15:38:59 by cluby            ###   ########.fr       */
+/*   Updated: 2024/06/26 16:26:03 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,32 @@ void	first_fork(char **argv, char **envp, int (*fd)[2], int i)
 	if (!cmd_path)
 		return (free_split(cmd), raise_error("Command not found",
 				argv[1], 127));
+	if (execve(cmd_path, cmd, envp) == -1)
+		return (free(cmd), free(cmd_path), raise_perror("execve error"));
+}
+
+void	middle_fork(char **envp, char *argv, int (*fd)[2], int i)
+{
+	char	**cmd;
+	char	*cmd_path;
+
+	if (dup2(fd[i - 1][0], 0) == -1)
+		return (close(fd[i - 1][0]), close(fd[i - 1][1]), close(fd[i][0]),
+			close(fd[i][1]), raise_perror("dup2 failed"));
+	if (dup2(fd[i][1], 1) == -1)
+		return (close(fd[i - 1][0]), close(fd[i - 1][1]), close(fd[i][0]),
+			close(fd[i][1]), raise_perror("dup2 failed"));
+	close(fd[i - 1][0]);
+	close(fd[i - 1][1]);
+	close(fd[i][0]);
+	close(fd[i][1]);
+	free(fd);
+	cmd = ft_split(argv, ' ');
+	if (!cmd)
+		return (raise_error("malloc error", "char **cmd", 1));
+	cmd_path = find_path(cmd, envp);
+	if (!cmd_path)
+		return (free_split(cmd), raise_error("Command not found", argv, 127));
 	if (execve(cmd_path, cmd, envp) == -1)
 		return (free(cmd), free(cmd_path), raise_perror("execve error"));
 }
@@ -102,6 +128,8 @@ int	manage_forks(int argc, char **argv, char **envp, int (*fd)[2])
 				first_fork(argv, envp, fd, i);
 			else if (i == argc - 4)
 				last_fork(argv + i + 1, envp, fd, i - 1);
+			else
+				middle_fork(envp, argv[i + 1], fd, i);
 		}
 		close_fd(i, fd);
 	}
